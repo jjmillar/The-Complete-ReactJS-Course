@@ -5,8 +5,14 @@ import { isArrayEmpty } from "./Utils"
 
 import './App.css';
 
-function App() {
-  const blogArr = [
+class App extends React.Component {
+  state = {
+    showBlogs: true,
+
+  };
+
+
+  blogArr = [
     {
       id: 1,
       title: 'Blog Title 1',
@@ -24,19 +30,34 @@ function App() {
     }
   ];
 
-  const blogCards = isArrayEmpty(blogArr) ? [] : blogArr.map((item, pos) => {
+  
+
+  blogCards = isArrayEmpty(this.blogArr) ? [] : this.blogArr.map((item, pos) => {
 
     return (
       <BlogCard className={'Blog'} key={pos} title={item.title} description={item.description} id={item.id}/>
     );
   });
 
-  return (
-    <div className="App">
-      {blogCards}
-    </div>
-  )
-  
+  onHideBtnClick = () => {
+    // let updatedState = !this.state.showBlogs
+    this.setState((prevState, prevProps) => {
+      return {showBlogs: !prevState.showBlogs}
+    });
+
+    console.log(this.showBlogs);
+  };
+
+  render() {
+    console.log('Render Called');
+    return (
+      <div className="App">
+        <button onClick={this.onHideBtnClick}>{this.state.showBlogs ? 'Hide List' : 'Show List'}</button>
+        <br></br>
+        { this.state.showBlogs ? this.blogCards : null }
+      </div>
+    )
+  };
   
   /*
   const firstName = 'John';
@@ -70,6 +91,6 @@ function App() {
     </div>
   );
   */
-}
+};
 
 export default App;

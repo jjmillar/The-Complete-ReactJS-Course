@@ -1,15 +1,36 @@
-import React from 'react';
+import React from "react";
 
-import { dumpLogs } from './Utils'
+import { dumpLogs } from "./Utils";
 
-const BlogCard = (props) => {
-    dumpLogs(props);
-    return(
-        <div className="BlogCard">
-            <h3>{props.title}</h3>
-            <p>{props.description}</p>
-        </div>
+import classes from "./BlogCard.module.css";
+
+class BlogCard extends React.Component {
+  state = {
+    likeCount: 0,
+  };
+
+  onLikeBtnClick = () => {
+    this.setState((prevState, prevProp) => {
+        return {likeCount: prevState.likeCount + 1}
+    });
+  };
+
+  render() {
+    dumpLogs(this.props);
+
+    return (
+      <div className={classes.BlogCard}>
+        <h3>{this.props.title}</h3>
+        <p>{this.props.description}</p>
+
+        <p>
+          Like Count:{" "}
+          <span className={classes.LikeCount}>{this.state.likeCount}</span>
+        </p>
+        <button onClick={this.onLikeBtnClick}>Like</button>
+      </div>
     );
-};
+  }
+}
 
 export default BlogCard;
